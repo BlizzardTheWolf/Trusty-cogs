@@ -470,32 +470,7 @@ class ServerStats(commands.GroupCog):
         else:
             await ctx.send("\n".join(description)[:2000])
 
-    @commands.hybrid_command()
-    @checks.mod_or_permissions(manage_channels=True)
-    @checks.bot_has_permissions(manage_channels=True)
-    async def topic(
-        self, ctx: commands.Context, channel: Optional[discord.TextChannel], *, topic: str = ""
-    ) -> None:
-        """
-        Sets a specified channels topic
-
-        - `channel` is optional and if not supplied will use the current channel
-         - Note: The maximum number of characters is 1024
-        """
-        if channel is None:
-            channel = ctx.channel
-        if not channel.permissions_for(ctx.author).manage_messages:
-            return
-        if not channel.permissions_for(ctx.me).manage_channels:
-            await ctx.send(
-                _('I require the "Manage Channels" permission to execute that command.')
-            )
-            return
-        await channel.edit(
-            topic=topic[:1024], reason=_("Requested by {author}").format(author=ctx.author)
-        )
-        await ctx.tick()
-
+    
     @commands.hybrid_group()
     @checks.mod_or_permissions(manage_channels=True)
     @checks.bot_has_permissions(manage_channels=True)
